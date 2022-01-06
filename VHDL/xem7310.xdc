@@ -12,6 +12,9 @@ set_property CFGBVS GND [current_design]
 set_property CONFIG_VOLTAGE 1.8 [current_design]
 set_property BITSTREAM.GENERAL.COMPRESS True [current_design]
 
+set_property PACKAGE_PIN Y9  [get_ports  {sys_rst}]
+set_property IOSTANDARD LVCMOS25 [get_ports {sys_rst}]
+
 ############################################################################
 ## ADCs
 ############################################################################
@@ -72,8 +75,22 @@ set_property PACKAGE_PIN AB7 [get_ports {i_ADC_SDO_p[7]}]
 ###################################################DU4_SI_BACK_SDO-
 set_property PACKAGE_PIN AB6 [get_ports {i_ADC_SDO_n[7]}]
 
-#set_property PACKAGE_PIN Y4 [get_ports {o_ADC_SCK_p[1]}]
-#set_property PACKAGE_PIN AA4 [get_ports {o_ADC_SCK_n[1]}]
+#####################################################################
+#SPARE
+###################################################################
+set_property PACKAGE_PIN Y6   [get_ports {o_ADC_SCK_p[4]}]
+set_property PACKAGE_PIN AA6  [get_ports {o_ADC_SCK_n[4]}]
+set_property PACKAGE_PIN AA4  [get_ports {o_ADC_CNV_n[4]}]
+###################################################
+set_property PACKAGE_PIN AA8  [get_ports {i_ADC_SDO_p[8]}]
+###################################################-
+set_property PACKAGE_PIN AB8  [get_ports {i_ADC_SDO_n[8]}]
+######################################################################
+###################################################
+set_property PACKAGE_PIN  U3  [get_ports {i_ADC_SDO_p[9]}]
+###################################################-
+set_property PACKAGE_PIN  V3   [get_ports {i_ADC_SDO_n[9]}]
+######################################################################
 
 #set_property PACKAGE_PIN Y16 [get_ports {o_ADC_SCK_p[3]}]
 #set_property PACKAGE_PIN AA16 [get_ports {o_ADC_SCK_n[3]}]

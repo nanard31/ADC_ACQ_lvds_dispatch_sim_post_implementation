@@ -21,13 +21,13 @@ entity Dispatch_board is
         -- ADC SPI
         --------------------------------------------------------------------------------------------
 		
-        i_ADC_SCK_p    : in std_logic_vector(3 downto 0);             -- SPI Serial Clock
-        i_ADC_SCK_n    : in std_logic_vector(3 downto 0);             -- SPI Serial Clock
+        i_ADC_SCK_p    : in std_logic_vector(4 downto 0);             -- SPI Serial Clock
+        i_ADC_SCK_n    : in std_logic_vector(4 downto 0);             -- SPI Serial Clock
         
-        i_ADC_CNV_n    : in std_logic_vector(3 downto 0);             -- SPI Convert Input, negative polarity
+        i_ADC_CNV_n    : in std_logic_vector(4 downto 0);             -- SPI Convert Input, negative polarity
         
-        o_ADC_SDO_p    : out  std_logic_vector(7 downto 0);              -- SPI Slave Data Output (MISO)
-        o_ADC_SDO_n    : out  std_logic_vector(7 downto 0)              -- SPI Slave Data Output (MISO)     
+        o_ADC_SDO_p    : out  std_logic_vector(9 downto 0);              -- SPI Slave Data Output (MISO)
+        o_ADC_SDO_n    : out  std_logic_vector(9 downto 0)              -- SPI Slave Data Output (MISO)     
            
     );
 end entity Dispatch_board;
@@ -35,13 +35,13 @@ end entity Dispatch_board;
 architecture RTL of Dispatch_board is
     
 -- -- signal iADC_SCK    : std_logic_vector(0 to 7);             -- SPI Serial Clock
-signal ADC_SCK    				: std_logic_vector(3 downto 0);              -- SPI Slave Data Output (MISO)
+signal ADC_SCK    				: std_logic_vector(4 downto 0);              -- SPI Slave Data Output (MISO)
 signal TB_ADC_Data_to_send     	: unsigned(15 downto 0) := (others => '0');
 signal init						: unsigned(15 downto 0) := (others => '0');
 -- signal ADC_CNV_n  : std_logic_vector(0 to 7);         
 
 -- signal iSCK  : std_logic_vector(0 to 7); 
-signal ADC_SDO  				: std_logic_vector(7 downto 0); 
+signal ADC_SDO  				: std_logic_vector(9 downto 0); 
 signal o_Front_ADC_SDO			: std_logic;
 
 signal debug_CNV : std_logic;
@@ -56,7 +56,7 @@ signal i_FIFO_dout_unsigned     :	unsigned(31 downto 0); -- Data register read f
 
 begin
 
-gen_IBUFDS_SCK : for I in 3 downto 0 generate
+gen_IBUFDS_SCK : for I in 4 downto 0 generate
 	IBUFDS_SCK : IBUFDS
 	generic map (
       IOSTANDARD => "LVDS_25")
@@ -102,11 +102,11 @@ lebel_emulator : entity work.ADCLTC2311_Emulators
 		
     end process data_emul;
 		
-gen_adssdo : for i in 7 downto 0 generate	
+gen_adssdo : for i in 9 downto 0 generate	
 ADC_SDO(i) <= o_Front_ADC_SDO;	
 end generate;
  
-gen_OBUFDS_ADC_SDO : for I in 7 downto 0 generate 
+gen_OBUFDS_ADC_SDO : for I in 9 downto 0 generate 
 	OBUFDS_ADC_SDO : OBUFDS
 	generic map (
     IOSTANDARD => "LVDS_25")

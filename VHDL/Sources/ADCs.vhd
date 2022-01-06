@@ -19,14 +19,14 @@ entity ADCs is
         --------------------------------------------------------------------------------------------
         -- ADC
         --------------------------------------------------------------------------------------------
-        o_Ready      : out std_logic_vector(0 to 7);             -- Ready flag when data register is up to date
-        o_Dout  	 : out std_logic_vector(16*8-1 downto 0); 	-- Output data register from conversion
+        o_Ready      : out std_logic_vector(0 to 9);             -- Ready flag when data register is up to date
+        o_Dout  	 : out std_logic_vector(16*10-1 downto 0); 	-- Output data register from conversion
         --------------------------------------------------------------------------------------------
         -- ADC SPI
         --------------------------------------------------------------------------------------------
-		o_ADC_SCK     : out std_logic_vector(0 to 3);             -- SPI Serial Clock
-        o_ADC_CNV_n  : out std_logic_vector(0 to 3);             -- SPI Convert Input, negative polarity
-        i_ADC_SDO     : in  std_logic_vector(0 to 7)              -- SPI Slave Data Output (MISO)
+		o_ADC_SCK     : out std_logic_vector(0 to 4);             -- SPI Serial Clock
+        o_ADC_CNV_n  : out std_logic_vector(0 to 4);             -- SPI Convert Input, negative polarity
+        i_ADC_SDO     : in  std_logic_vector(0 to 9)              -- SPI Slave Data Output (MISO)
 		
         -- o_ADC_SCK_p    : out std_logic_vector(0 to 7);             -- SPI Serial Clock
         -- o_ADC_SCK_n    : out std_logic_vector(0 to 7);             -- SPI Serial Clock
@@ -42,15 +42,15 @@ end entity ADCs;
 architecture RTL of ADCs is
     
 -- signal iADC_SCK    : std_logic_vector(0 to 7);             -- SPI Serial Clock
-signal ADC_SCK    : std_logic_vector(0 to 7);              -- SPI Slave Data Output (MISO)
-signal ADC_CNV_n  : std_logic_vector(0 to 7);         
+signal ADC_SCK    : std_logic_vector(0 to 9);              -- SPI Slave Data Output (MISO)
+signal ADC_CNV_n  : std_logic_vector(0 to 9);         
 
-signal iSCK  : std_logic_vector(0 to 7); 
-signal iSDO  : std_logic_vector(0 to 7); 
+signal iSCK  : std_logic_vector(0 to 9); 
+signal iSDO  : std_logic_vector(0 to 9); 
 
 begin
 
-gen_ADCs:   for i in 0 to 7 generate
+gen_ADCs:   for i in 0 to 9 generate
 
     ADC: entity work.ADCLTC2311_Driver
         port map(
@@ -74,11 +74,14 @@ o_ADC_CNV_n(0)	<= ADC_CNV_n(0);
 o_ADC_CNV_n(1)	<= ADC_CNV_n(2);
 o_ADC_CNV_n(2)	<= ADC_CNV_n(4);
 o_ADC_CNV_n(3)	<= ADC_CNV_n(6);
+o_ADC_CNV_n(4)	<= ADC_CNV_n(7);
   
 o_ADC_SCK(0)	<= ADC_SCK(0);	-- DU 1
 o_ADC_SCK(1)	<= ADC_SCK(2);	-- DU 2
 o_ADC_SCK(2)	<= ADC_SCK(4);	-- DU 3
 o_ADC_SCK(3)	<= ADC_SCK(6);	-- DU 4
+
+o_ADC_SCK(4)	<= ADC_SCK(7);	-- DU 4
   
 
 			

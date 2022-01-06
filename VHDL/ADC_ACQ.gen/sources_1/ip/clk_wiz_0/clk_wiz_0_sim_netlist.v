@@ -1,10 +1,10 @@
 // Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-// Date        : Tue Jan  4 10:55:24 2022
+// Date        : Thu Jan  6 16:34:48 2022
 // Host        : DESKTOP-BSP8Q2B running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
-//               c:/TORTOISE_DORN/ADC_ACQ_lvds_dispatch_checkout/VHDL/ADC_ACQ.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.v
+//               c:/TORTOISE_DORN/ADC_ACQ_lvds_dispatch_sim_post_implementation/VHDL/ADC_ACQ.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.v
 // Design      : clk_wiz_0
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -124,7 +124,7 @@ module clk_wiz_0_clk_wiz_0_clk_wiz
     .CLKFBOUT_USE_FINE_PS("FALSE"),
     .CLKIN1_PERIOD(5.000000),
     .CLKIN2_PERIOD(0.000000),
-    .CLKOUT0_DIVIDE_F(10.000000),
+    .CLKOUT0_DIVIDE_F(20.000000),
     .CLKOUT0_DUTY_CYCLE(0.500000),
     .CLKOUT0_PHASE(0.000000),
     .CLKOUT0_USE_FINE_PS("FALSE"),

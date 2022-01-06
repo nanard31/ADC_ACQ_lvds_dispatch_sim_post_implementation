@@ -30,28 +30,28 @@ module ramtest (
 	
 
 	
-	output wire [3 :0]  o_ADC_CNV_n,
-    output wire [3 :0]  o_ADC_SCK_n,
-    output wire [3 :0]  o_ADC_SCK_p,
+	output wire [4 :0]  o_ADC_CNV_n,
+    output wire [4 :0]  o_ADC_SCK_n,
+    output wire [4 :0]  o_ADC_SCK_p,
 	
-    input  wire [7 :0]  i_ADC_SDO_p,
-    input  wire [7 :0]  i_ADC_SDO_n,
+    input  wire [9 :0]  i_ADC_SDO_p,
+    input  wire [9 :0]  i_ADC_SDO_n,
 	
 	input  wire        	sys_rst              // for simulation
 	
 	);
 
-	wire [3:0] ADC_SCK;    //: in std_logic_vector(0 to 3);             -- SPI Serial Clock
+	wire [4:0] ADC_SCK;    //: in std_logic_vector(0 to 3);             -- SPI Serial Clock
         
-    wire [7:0] ADC_SDO ;  // : in std_logic_vector(0 to 3);             -- SPI Convert Input, negative polarity
+    wire [9:0] ADC_SDO ;  // : in std_logic_vector(0 to 3);             -- SPI Convert Input, negative polarity
 	
-	wire [127: 0] o_dout;
+	wire [159: 0] o_dout;      //160 bits=16x10
 	
 	wire clk;
 	
-	wire [7:0] o_rdy;
+	wire [9:0] o_rdy;          //10 bits
 	
-	wire [135: 0] probe0;
+	wire [169: 0] probe0;
  
 ila_0 u_ila_0(
 	  .clk	(clk),
@@ -104,7 +104,7 @@ Test_Template Test_Template_instance (
 
 genvar i;
 generate
-    for (i=0; i<=3; i=i+1) begin: OBUFDS
+    for (i=0; i<=4; i=i+1) begin: OBUFDS
     OBUFDS whatever_OBUFDS (
         .I(ADC_SCK[i]),
 		.O(o_ADC_SCK_p[i]),
@@ -119,7 +119,7 @@ assign o_ADC_Sck_n = o_ADC_Sck_n_wire;  */
  
 genvar v;
 generate
-    for (v=0; v<=7; v=v+1) begin: IBUFDS
+    for (v=0; v<=9; v=v+1) begin: IBUFDS
     IBUFDS whatever_IBUFDS (
         .I(i_ADC_SDO_p[v]),
         .IB(i_ADC_SDO_n[v]),

@@ -738,13 +738,13 @@ function integer clogb2 (input integer size);
 `endif
 
       
-	wire [3:0] ADC_SCK_p;    //: in std_logic_vector(0 to 3);             -- SPI Serial Clock
-    wire [3:0] ADC_SCK_n;  //  : in std_logic_vector(0 to 3);             -- SPI Serial Clock
+	wire [4:0] ADC_SCK_p;    //: in std_logic_vector(0 to 3);             -- SPI Serial Clock
+    wire [4:0] ADC_SCK_n;  //  : in std_logic_vector(0 to 3);             -- SPI Serial Clock
         
-    wire [3:0] ADC_CNV_n ;  // : in std_logic_vector(0 to 3);             -- SPI Convert Input, negative polarity
+    wire [4:0] ADC_CNV_n ;  // : in std_logic_vector(0 to 3);             -- SPI Convert Input, negative polarity
         
-    wire [7:0] ADC_SDO_p;   // : out  std_logic_vector(0 to 7);              -- SPI Slave Data Output (MISO)
-    wire [7:0] ADC_SDO_n;  // : out  std_logic_vector(0 to 7)              -- SPI Slave Data Output (MISO) 
+    wire [9:0] ADC_SDO_p;   // : out  std_logic_vector(0 to 7);              -- SPI Slave Data Output (MISO)
+    wire [9:0] ADC_SDO_n;  // : out  std_logic_vector(0 to 7)              -- SPI Slave Data Output (MISO) 
   
 
 
