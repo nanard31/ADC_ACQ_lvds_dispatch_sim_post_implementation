@@ -54,7 +54,7 @@ begin
             Master_Count <= (others => '0');
             Debug_cnt    <= (others => '0');
             state        <= S_Idle;               -- Start in idle state
-        elsif rising_edge(i_Clk_100MHz) then
+        elsif falling_edge(i_Clk_100MHz) then
             -- FSM
             case state is                         -- FSM_freq = 100MHz, here sampling at here sampling at 4.5 MHz
                 when S_Idle =>
@@ -112,8 +112,8 @@ begin
                         when others =>            -- Do nothing
                     end case;
 
-                    --if (Master_Count >= 5X"04" and Master_Count <= 5X"14") then
-					if (Master_Count >= "00100" and Master_Count <= "10100") then
+                    --if (Master_Count >= 5X"05" and Master_Count <= 5X"14") then
+					if (Master_Count >= "00101" and Master_Count <= "10100") then
                         SPI_Received_Data <= SPI_Received_Data(14 downto 0) & i_ADC_SDO; -- Store the newly measured bit
                     end if;
 

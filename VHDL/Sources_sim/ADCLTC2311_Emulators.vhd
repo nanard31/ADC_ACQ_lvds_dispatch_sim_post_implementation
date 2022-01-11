@@ -57,6 +57,7 @@ begin
 
             while SPI_Bit_Number_cpt > X"0" loop
                 wait until falling_edge(i_ADC_SCK);
+				--wait for 5 ns;	--emul delay when else&lvds of sclk	
                 -- Bits are sent in descending order from bit #15 to bit #0 (front) and bit #31 to bit #16 (back)
                 SPI_Bit_Number_cpt <= SPI_Bit_Number_cpt - "1";
 
