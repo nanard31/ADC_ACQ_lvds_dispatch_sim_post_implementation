@@ -54,6 +54,8 @@ signal o_FIFO_rd_en    :	std_logic;          -- FIFO Read Enable flag to request
 signal i_FIFO_dout     :	std_logic_vector(31 downto 0); -- Data register read from FIFO to convert
 signal i_FIFO_dout_unsigned     :	unsigned(31 downto 0); -- Data register read from FIFO to convert
 
+signal ADC_SCK_delayed	:	std_logic;
+
 begin
 
 gen_IBUFDS_SCK : for I in 4 downto 0 generate
@@ -83,11 +85,14 @@ lebel_emulator : entity work.ADCLTC2311_Emulators
         --------------------------------------------------------------------------------------------
         -- ADC SPI
         --------------------------------------------------------------------------------------------
-        i_ADC_SCK       =>	ADC_SCK(0),
+        i_ADC_SCK       =>	ADC_SCK(0),		--ADC_SCK_delayed 	use it in RTL simulation
         i_ADC_CNV_n     =>	i_ADC_CNV_n(0),
         o_Front_ADC_SDO =>	o_Front_ADC_SDO,
         o_Back_ADC_SDO  =>	open
     );
+
+--ADC_SCK_delayed <= transport ADC_SCK(0) after 5ns;	--	use it in RTL simulation
+
 	
     data_emul : process
     begin
@@ -102,9 +107,11 @@ lebel_emulator : entity work.ADCLTC2311_Emulators
 		
     end process data_emul;
 		
-gen_adssdo : for i in 9 downto 0 generate	
+gen_adssdo : for i in 8 downto 0 generate	
 ADC_SDO(i) <= o_Front_ADC_SDO;	
 end generate;
+
+ADC_SDO(9) <= '0';
  
 gen_OBUFDS_ADC_SDO : for I in 9 downto 0 generate 
 	OBUFDS_ADC_SDO : OBUFDS

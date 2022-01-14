@@ -58,8 +58,8 @@ gen_ADCs:   for i in 0 to 9 generate
             i_Rst_n     => i_Rst_n,
             i_Clk_100MHz=> i_Clk,
 			-- Control
-			i_Enable		=> '1',
-			i_Debug_Pin_Sel	=>	"0111",
+			--i_Enable		=> '1',
+			--i_Debug_Pin_Sel	=>	"0111",
             o_Data_Ready    => o_Ready(i),
             o_Data_Read  	=> o_Dout(16*(i+1)-1 downto 16*i),
 			-- ADC SPI

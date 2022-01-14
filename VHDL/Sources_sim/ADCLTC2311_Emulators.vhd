@@ -27,15 +27,15 @@ end ADCLTC2311_Emulators;
 
 architecture RTL of ADCLTC2311_Emulators is
 
-    signal SPI_Bit_Number_cpt : unsigned(3 downto 0); -- 16-bit standard SPI protocol
+    signal SPI_Bit_Number_cpt      : unsigned(3 downto 0); -- 16-bit standard SPI protocol
+    constant C_SDO_OutputDelayLine : time := 6 ns;
 
 begin
-
     p_ADC_SPI_Protocol : process
     begin
         SPI_Bit_Number_cpt <= X"F";
-        o_Front_ADC_SDO    <= '0';--'Z';
-        o_Back_ADC_SDO     <= '0';--'Z';
+        o_Front_ADC_SDO    <= 'Z';
+        o_Back_ADC_SDO     <= 'Z';
         wait until i_Rst_n = '1';
 
         while True loop
@@ -44,28 +44,27 @@ begin
             if i_FIFO_empty = '0' then
                 o_FIFO_rd_en <= '1';              -- Request new value from the FIFO
             end if;
+            wait for 3 ns;                        -- Wait for bus relinquish time after CNV_n rising
             -- Outputs at high impedance during acquisition
-            o_Front_ADC_SDO <= '0';--'Z';
-            o_Back_ADC_SDO  <= '0';--'Z';
+            o_Front_ADC_SDO <= '0';
+            o_Back_ADC_SDO  <= '0';
 
             wait until falling_edge(i_ADC_CNV_n);
             -- CNV_n Low
             o_FIFO_rd_en    <= '0';               -- No new value
-            wait for 5 ns;
-            o_Front_ADC_SDO <= i_FIFO_dout(15);
-            o_Back_ADC_SDO  <= i_FIFO_dout(31);
+            wait for 3 ns;                        -- Wait for SDO aata valid delay from CNV_n falling
+            o_Front_ADC_SDO <= i_FIFO_dout(15);   -- Send MSB first
+            o_Back_ADC_SDO  <= i_FIFO_dout(31);   -- Send MSB first
 
             while SPI_Bit_Number_cpt > X"0" loop
-                wait until falling_edge(i_ADC_SCK);
-				--wait for 5 ns;	--emul delay when else&lvds of sclk	
+                wait until falling_edge(i_ADC_SCK); -- Clock at 100 MHz
+                wait for C_SDO_OutputDelayLine;																		
                 -- Bits are sent in descending order from bit #15 to bit #0 (front) and bit #31 to bit #16 (back)
                 SPI_Bit_Number_cpt <= SPI_Bit_Number_cpt - "1";
 
-                o_Front_ADC_SDO <= i_FIFO_dout(to_integer(SPI_Bit_Number_cpt)); -- Send LSB: bit 15-0
-                o_Back_ADC_SDO  <= i_FIFO_dout(to_integer(SPI_Bit_Number_cpt) + 16); -- Send MSB: bit 31-16
+                o_Front_ADC_SDO <= i_FIFO_dout(to_integer(SPI_Bit_Number_cpt)); -- Send bits #15-0
+                o_Back_ADC_SDO  <= i_FIFO_dout(to_integer(SPI_Bit_Number_cpt) + 16); -- Send bits #31-16
             end loop;
-
-            wait for 10 ns;
         end loop;
     end process p_ADC_SPI_Protocol;
 
